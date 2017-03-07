@@ -7,11 +7,19 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/astaxie/beego/toolbox"
+	"net/http"
+	"math/rand"
+	"encoding/json"
+	"bytes"
+	"strconv"
+	"time"
 )
 
 func init() {
 	orm.RegisterDriver("mysql", orm.DRMySQL)
 	orm.RegisterDataBase("default", "mysql", "root:root@/compost?charset=utf8", 10, 10)
+	orm.DefaultTimeLoc = time.Local
 	// Drop table and re-create.
 	force := false
 
@@ -27,11 +35,11 @@ func init() {
 	o := orm.NewOrm()
 	o.Using("compost")
 
-	var arduino1 models.Arduino
+	var arduino1 models.Devices
 	arduino1.Name = "Arduino#1"
 	arduino1.IP = "192.168.1.10"
 
-	var arduino2 models.Arduino
+	var arduino2 models.Devices
 	arduino2.Name = "Arduino#2"
 	arduino2.IP = "192.168.1.20"
 
@@ -48,9 +56,34 @@ func init() {
 		fmt.Println("name already exists")
 	}
 
+	createTasks()
+}
+
+func createTasks() {
+
+	addMeasurements := toolbox.NewTask("measurements", "0/5 * * * * *", func() error {//every 5 minutes
+		type buffer struct {
+			Device      string        `json:"Device"`
+			Temperature float32       `json:"Temperature"`
+		}
+		id := rand.Intn(4)
+		if id != 0 {
+			meas := buffer{Device:"Arduino"+strconv.Itoa(id), Temperature:rand.Float32()}
+			jsondata, err := json.Marshal(meas)
+			resp, err := http.Post("http://localhost:8080/api/measurements/add", "application/json", bytes.NewBuffer(jsondata))
+			beego.Debug("responce : ", resp, "err :", err)
+		}
+		return nil
+	})
+
+	toolbox.AddTask("measurements", addMeasurements)
+	toolbox.StartTask()
+	//defer toolbox.StopTask()
+
 }
 
 func main() {
+
 	beego.Run()
 }
 

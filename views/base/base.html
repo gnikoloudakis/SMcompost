@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {{template "base/head.html" .}}
+    {{template "head" .}}
+
+    <title>{{template "title" .}}</title>
+
+</head>
+<body class="nav-md">
+<div class="container body">
+    <div class="main_container">
+
+        {{template "base/sidebar.html" .}}
+        {{template "base/sidebar_footer.html" .}}
+        {{template "base/top_nav.html" .}}
+
+        {{template "/base/body.html" .}}
+
+        {{template "base/footer.html" .}}
+
+        {{template "base/scripts.html" .}}
+        {{template "scripts" .}}
+    </div>
+</div>
+</body>
+</html>
