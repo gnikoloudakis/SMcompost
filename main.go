@@ -61,7 +61,7 @@ func init() {
 
 func createTasks() {
 
-	addMeasurements := toolbox.NewTask("measurements", "0/5 * * * * *", func() error {//every 5 minutes
+	addMeasurements := toolbox.NewTask("measurements", "0 */10 * * * *", func() error {//every 5 minutes
 		type buffer struct {
 			Device      string        `json:"Device"`
 			Temperature float32       `json:"Temperature"`

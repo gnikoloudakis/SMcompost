@@ -10,7 +10,7 @@ function createChart(device, container) {
     var chart; // global
     newChart(container);
 
-    console.log(device);
+    // console.log(device);
 
 
     function requestData() {
@@ -22,7 +22,7 @@ function createChart(device, container) {
                 // console.log(typeof itemq.Temperature);
                 // console.log(itemq.Temperature);
                 // console.log(typeof itemq.Timestamp);
-                var shift = series.data.length > 200;// shift if the series is
+                var shift = series.data.length > 20;// shift if the series is
                 // longer than 20
                 // console.log(new Date(itemq.Timestamp).getTime());
 
@@ -81,9 +81,6 @@ function createChart(device, container) {
                         Highcharts.dateFormat('%Y-%m-%d %H:%M:%S', this.x) + '<br/>' +
                         Highcharts.numberFormat(this.y, 2);
                 }
-            },
-            scrollbar: {
-                enabled: true
             },
             series: [{
                 name: 'Temperature',

@@ -6,7 +6,7 @@ import (
 )
 
 func init() {
-	beego.Router("/", &controllers.MainController{})
+	beego.Router("/dashboard", &controllers.MainController{})
 	beego.Router("/api/devices/add", &controllers.AddDeviceController{})
 	beego.Router("/api/devices/remove", &controllers.DeleteDeviceController{})//////// den exo grapsei ton controller akoma
 	beego.Router("/api/measurements/add", &controllers.AddMeasurementsController{})

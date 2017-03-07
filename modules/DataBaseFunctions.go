@@ -16,7 +16,7 @@ func GetDeviceByName(deviceName string) (device models.Devices, success bool) {
 	} else if err == orm.ErrMissPK {
 		beego.Error("No primary key found.")
 	} else {
-		beego.Debug("Found Device for Inserting NEW measurement")
+		beego.Debug("Found Device")
 		success = true
 	}
 	return device, success
@@ -27,7 +27,7 @@ func GetMeasurementsByName(device string)(meas []orm.Params, success bool){
 	deviceInstance, res := GetDeviceByName(device)
 	if res {
 		o := orm.NewOrm()
-		num, err := o.QueryTable("measurements").Filter("device_id", deviceInstance.Id).OrderBy("timestamp").Values(&meas)
+		num, err := o.QueryTable("measurements").Filter("device_id", deviceInstance.Id).OrderBy("timestamp").Limit(40).Values(&meas)
 		if err != nil {
 			beego.Error("error in getting Initial Measurements :", err)
 		} else {

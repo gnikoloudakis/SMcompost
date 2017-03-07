@@ -10,7 +10,7 @@
 
                 <div class="row x_title">
                     <div class="col-md-6">
-                        <h3>Live Data
+                        <h3>Chart Data
                             <small>Device Name :{{$element.Name}} </small>
                         </h3>
                     </div>
@@ -41,12 +41,12 @@
 <!-- Highcharts -->
 <script src="/static/js/highcharts/highcharts.js"></script>
 <script src="../static/js/highcharts/exporting.js"></script>
+<script src="../static/js/highcharts/boost.js"></script>
 <!-- Create the charts script -->
 <script src="/static/js/create_charts.js"></script>
     {{range $index, $element := .Devices}}
         <script>
             createChart("{{$element.Name}}", "temp_plot_0{{$index}}")
-
         </script>
     {{end}}
 {{end}}

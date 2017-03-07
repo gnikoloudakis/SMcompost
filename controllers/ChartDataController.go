@@ -25,8 +25,6 @@ type Arduino struct {
 
 func (d *ChartsController) Get() {
 	devices := getDevices()
-
-
 	////a :=fmt.Sprintf("{{'id':%d, 'X':%s, 'Y':%d}}", 2, time.Now().UTC(), rand.Intn(100))
 	////p := fmt.Println
 	////p("id = ", d.Ctx.Input.Param(":id"))///den exei doulepsei akom afto
@@ -41,7 +39,6 @@ func (d *ChartsController) Get() {
 	//d.Data["json"] = &dt
 	//d.ServeJSON()
 	d.Data["Devices"] = &devices
-
 	d.TplName = "charts.html"
 
 	//d.Ctx.Output.Body([]byte("OK!!"))
