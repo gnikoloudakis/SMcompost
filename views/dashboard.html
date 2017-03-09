@@ -2,6 +2,19 @@
 {{define "head"}}{{end}}
 {{define "title"}}poutsa{{end}}
 {{define "body"}}
-{{end}} <!--  end of body block -->
+<div class="row">
+    {{range $index, $element := .Devices}}
+        <div class="col-md-4">
+                <div id="device_0{{$index}}"></div>
+        </div>
+    {{end}}
+</div>
+{{end}}
 {{define "scripts"}}
+    <script src="/static/js/createSpeedometers.js"></script>
+    {{range $index, $element := .Devices}}
+        <script>
+            createGauge("{{$element.Name}}", "device_0{{$index}}")
+        </script>
+    {{end}}
 {{end}}

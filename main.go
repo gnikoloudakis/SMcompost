@@ -60,26 +60,25 @@ func init() {
 }
 
 func createTasks() {
+		addMeasurements := toolbox.NewTask("measurements", "0 */1 * * * *", func() error {
+			//every 5 minutes
+			type buffer struct {
+				Device      string        `json:"Device"`
+				Temperature float32       `json:"Temperature"`
+			}
+			id := rand.Intn(4)
+			if id != 0 {
+				meas := buffer{Device:"Arduino" + strconv.Itoa(id), Temperature:rand.Float32()}
+				jsondata, err := json.Marshal(meas)
+				resp, err := http.Post("http://localhost:8080/api/measurements/add", "application/json", bytes.NewBuffer(jsondata))
+				beego.Debug("responce : ", resp, "err :", err)
+			}
+			return nil
+		})
 
-	addMeasurements := toolbox.NewTask("measurements", "0 */10 * * * *", func() error {//every 5 minutes
-		type buffer struct {
-			Device      string        `json:"Device"`
-			Temperature float32       `json:"Temperature"`
-		}
-		id := rand.Intn(4)
-		if id != 0 {
-			meas := buffer{Device:"Arduino"+strconv.Itoa(id), Temperature:rand.Float32()}
-			jsondata, err := json.Marshal(meas)
-			resp, err := http.Post("http://localhost:8080/api/measurements/add", "application/json", bytes.NewBuffer(jsondata))
-			beego.Debug("responce : ", resp, "err :", err)
-		}
-		return nil
-	})
-
-	toolbox.AddTask("measurements", addMeasurements)
-	toolbox.StartTask()
-	//defer toolbox.StopTask()
-
+		toolbox.AddTask("measurements", addMeasurements)
+		toolbox.StartTask()
+		//defer toolbox.StopTask()
 }
 
 func main() {

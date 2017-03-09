@@ -14,7 +14,7 @@ type Devices struct{
 
 type Measurements struct{
 	Id 		int		`orm:"auto"`
-	Timestamp	time.Time 	`orm:"auto_now_add;type(datetime)"`
+	Timestamp	time.Time 	`orm:"auto_now_add;type(date)"`
 	Temperature	float32		`orm:"size(10)"`
 	Device 	*Devices 		`orm:"rel(fk);on_delete(cascade)"`
 }
